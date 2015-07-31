@@ -1,6 +1,48 @@
 <?xml version="1.0"?>
-<project name="TUserService" default="test">
-	<target name="test">
-		<echo>called successfully ....</echo>
-	</target> 
+<project name="TUserService" default="build-war">
+	<property name="app.name" value="TUserService" />
+	<property name="classes" value="build/classes" />
+	<property name="web" value="WebContent" />
+	<property name="webdir" value="WebContent/WEB-INF" />
+	<property name="src" value="src" />
+	<property name="dist" value="build/dist" />
+	<property name="tuserService.jar" value="${dist}/tuserService.jar" />
+	
+
+	<path id="compile.classpath">
+		<pathelement location="${classes}" />
+		<fileset dir="${webdir}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="clean" description="Delete old work and dist directories">
+		<delete dir="${classes}" />
+		<delete dir="${dist}" />
+		<mkdir dir="${classes}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<echo>Compiling code...</echo>
+		<javac srcdir="${src}" destdir="${classes}" includeantruntime="false"
+			nowarn="on" includes="**/*.java" debug="true">
+			<classpath refid="compile.classpath" />
+		</javac>
+		<echo>Compile completed...</echo>
+		<jar destfile="${dist}/tuserService.jar" basedir="${classes}" includes="**/*.class" />
+		<echo>Jar created...</echo>
+	</target>
+
+	<target name="build-war" depends="compile">
+		<echo>Building war...</echo>
+		<copy  todir="${webdir}/lib" file="${tuserService.jar}" />
+		<war destfile="${dist}/${app.name}.war">
+			<fileset dir="${web}">
+				<include name="**/*.*" />
+			</fileset>
+		</war>
+		<echo>war created successfully</echo>
+	</target>
+
+
 </project>

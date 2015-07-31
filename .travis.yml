@@ -1,3 +1,11 @@
 language: java
 sudo: required
-script: ant test
+script: ant build-war
+deploy:
+   edge: true
+   provider: cloudfoundry
+   username: natta_nagaraju@yahoo.co.in
+   password: nnr999789
+   api: https://api.run.pivotal.io
+   organization: vz-hackathon-july
+   space: development
