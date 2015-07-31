@@ -1,0 +1,4 @@
+---
+applications:
+- name: TUserService
+path: build/dist/TUserService.war
