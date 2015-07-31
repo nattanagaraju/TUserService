@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="TUserService" default="test">
+	<target name="test">
+		<echo>called successfully ....</echo>
+	</target> 
+</project>
