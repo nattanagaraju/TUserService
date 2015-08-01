@@ -6,7 +6,7 @@
 	<property name="webdir" value="WebContent/WEB-INF" />
 	<property name="src" value="src" />
 	<property name="dist" value="build/dist" />
-	<property name="tuserService.jar" value="${dist}/tuserservice.jar" />
+	<property name="tuserservice.jar" value="${dist}/tuserservice.jar" />
 	
 
 	<path id="compile.classpath">
@@ -29,13 +29,13 @@
 			<classpath refid="compile.classpath" />
 		</javac>
 		<echo>Compile completed...</echo>
-		<jar destfile="${dist}/tuserService.jar" basedir="${classes}" includes="**/*.class" />
+		<jar destfile="${tuserservice.jar}" basedir="${classes}" includes="**/*.class" />
 		<echo>Jar created...</echo>
 	</target>
 
 	<target name="build-war" depends="compile">
 		<echo>Building war...</echo>
-		<copy  todir="${webdir}/lib" file="${tuserService.jar}" />
+		<copy  todir="${webdir}/lib" file="${tuserservice.jar}" />
 		<war destfile="${dist}/${app.name}.war">
 			<fileset dir="${web}">
 				<include name="**/*.*" />
