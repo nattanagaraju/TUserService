@@ -29,7 +29,7 @@
 		
 			<%
 				Map<String, Object> result2 = (Map<String, Object>)request.getAttribute("response");
-				if(result2.get("result") != null){
+				if(result2 != null && result2.get("result") != null){
 		
 						ArrayList<HashMap<String, Object>> rowList = (ArrayList<HashMap<String, Object>>)result2.get("result");
 						ArrayList<String> colList = (ArrayList<String>)result2.get("columnList");
