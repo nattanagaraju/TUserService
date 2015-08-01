@@ -8,18 +8,34 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class MySQLDAO {
+	private static Properties prop = new Properties();
+	static{
+		prop.setProperty("env", "cloud");
+		try {
+			prop.load(MySQLDAO.class.getClassLoader().getResourceAsStream("env_config.properties"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Map<String, Object> executeQuery(String query){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			Connection connection = getCludConnection();
+			Connection connection = null;
+			if("local".equals(prop.getProperty("env"))){
+				connection = getConnection();
+			}else{
+				connection = getCludConnection();
+			}
 			Statement st = connection.createStatement();
 			query = query.trim().toLowerCase();
 			System.out.println("Query: "+query);
 			result.put("query", query);
 			result.put("connectionStatus", "Connection Retrieved successfully");
-			if(query.startsWith("select") || query.startsWith("show")){
+			if(query.startsWith("select") || query.startsWith("show") || query.startsWith("desc")){
 				ResultSet rs = st.executeQuery(query);
 				result.put("queryExecutionStatus", "success");
 				ResultSetMetaData meta = rs.getMetaData();

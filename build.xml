@@ -7,6 +7,7 @@
 	<property name="src" value="src" />
 	<property name="dist" value="build/dist" />
 	<property name="tuserservice.jar" value="${dist}/tuserservice.jar" />
+	<property name="resources" value="src/main/resources" />
 	
 
 	<path id="compile.classpath">
@@ -29,7 +30,9 @@
 			<classpath refid="compile.classpath" />
 		</javac>
 		<echo>Compile completed...</echo>
-		<jar destfile="${tuserservice.jar}" basedir="${classes}" includes="**/*.class" />
+		<copy  todir="${classes}" file="${resources}/env_config.properties" />
+		<jar destfile="${tuserservice.jar}" basedir="${classes}" includes="**/*.class, **/*.properties">
+		</jar>
 		<echo>Jar created...</echo>
 	</target>
 
