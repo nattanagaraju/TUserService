@@ -20,7 +20,7 @@ public class MySQLDAO {
 	
 	private Connection connection = null;
     public Connection getConnection() {
-        String url = "jdbc:mysql://b1ca12e92f18fc:c2d65a2b@us-cdbr-iron-east-02.cleardb.net:3306/ad_4da09c6f1711355";
+        String url = "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/ad_4da09c6f1711355";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url,"b1ca12e92f18fc","c2d65a2b");
