@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.hack.dao.MySQLDAO;
 import org.hack.util.TLogger;
 
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
@@ -25,6 +26,8 @@ public class TUserService {
 	public Viewable findById() {
 		TLogger.logInfo("Rest Service called...");
 		request.setAttribute("message", "I am called..");
+		MySQLDAO dao = new MySQLDAO();
+		dao.insertdata();
 		TLogger.reportLog("Completed..");
 		return new Viewable("/helo.html");
 	}
