@@ -13,7 +13,7 @@ public class MySQLDAO {
 	public Map<String, Object> executeQuery(String query){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			Connection connection = getConnection();
+			Connection connection = getCludConnection();
 			Statement st = connection.createStatement();
 			query = query.trim().toLowerCase();
 			System.out.println("Query: "+query);
