@@ -6,7 +6,7 @@
 	<property name="webdir" value="WebContent/WEB-INF" />
 	<property name="src" value="src" />
 	<property name="dist" value="build/dist" />
-	<property name="tuserService.jar" value="${dist}/tuserService.jar" />
+	<property name="tuserService.jar" value="${dist}/tuserservice.jar" />
 	
 
 	<path id="compile.classpath">
