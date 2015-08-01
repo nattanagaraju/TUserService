@@ -35,7 +35,7 @@ public class TUserService {
 		Map<String, Object> resp = dao.executeQuery("select * from users where email='"+email+"'");
 		response = gson.toJson(resp); 
 		TLogger.reportLog("Completed.."+response);
-		return email;
+		return response;
 	}
 	
 }
