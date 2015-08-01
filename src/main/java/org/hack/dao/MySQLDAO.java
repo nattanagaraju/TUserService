@@ -13,7 +13,7 @@ public class MySQLDAO {
 	public Map<String, Object> executeQuery(String query){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			Connection connection = getCludConnection();
+			Connection connection = getConnection();
 			Statement st = connection.createStatement();
 			query = query.trim().toLowerCase();
 			System.out.println("Query: "+query);
@@ -27,8 +27,8 @@ public class MySQLDAO {
 				ArrayList<String> colList = new ArrayList<String>();
 				HashMap<String, Object> row = null;
 				ArrayList<HashMap<String, Object>> rowList = new ArrayList<HashMap<String, Object>>();
-				for(int i=1; i<colsCount; i++){
-					colList.add(meta.getColumnName(i));
+				for(int i=1; i<=colsCount; i++){
+					colList.add(meta.getColumnLabel(i));
 				}
 				while(rs.next()){
 					row = new HashMap<String, Object>();
