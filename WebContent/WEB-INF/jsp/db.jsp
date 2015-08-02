@@ -34,15 +34,15 @@
 						ArrayList<HashMap<String, Object>> rowList = (ArrayList<HashMap<String, Object>>)result2.get("result");
 						ArrayList<String> colList = (ArrayList<String>)result2.get("columnList");
 						boolean header = false;
-						%> <table id="ql_rest" cellspacing="0"> <%
-						%> </tr> <%
+						%> <table id="ql_rest" cellspacing="0"> <tr> 
+						<%
 							for(String col: colList){
 								
 								%> <th><%= col %></th> <%
 							}
 						%> </tr> <%
 						for(HashMap<String, Object> row: rowList){
-							%> </tr> <%
+							%> <tr> <%
 							for(String col: colList){
 								
 								%> <td><%= row.get(col) %></td> <%
