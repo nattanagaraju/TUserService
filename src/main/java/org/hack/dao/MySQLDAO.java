@@ -8,31 +8,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+
+import org.hack.util.EnvProperties;
+import org.tlog.TLogger;
+import org.tlog.TPath;
 
 public class MySQLDAO {
-	private static Properties prop = new Properties();
-	static{
-		prop.setProperty("env", "cloud");
-		try {
-			prop.load(MySQLDAO.class.getClassLoader().getResourceAsStream("env_config.properties"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public Map<String, Object> executeQuery(String query){
+		TLogger.logInfo("MySQLDAO", "executeQuery", "Entry");
 		Map<String, Object> result = new HashMap<String, Object>();
+		String statusMsg = "SUCCESS";
+		String statusCode = "0000";
+		TPath.startTPath("MySQLDAO");
 		try {
 			Connection connection = null;
-			if("local".equals(prop.getProperty("env"))){
+			if("local".equals(EnvProperties.getProp("env"))){
 				connection = getConnection();
 			}else{
 				connection = getCludConnection();
 			}
 			Statement st = connection.createStatement();
-			query = query.trim().toLowerCase();
-			System.out.println("Query: "+query);
+			TLogger.logInfo("MySQLDAO", "executeQuery", "Query: "+query);
 			result.put("query", query);
 			result.put("connectionStatus", "Connection Retrieved successfully");
 			if(query.startsWith("select") || query.startsWith("show") || query.startsWith("desc")){
@@ -63,42 +59,48 @@ public class MySQLDAO {
 			}
 			connection.close();
 		} catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e);
             e.printStackTrace();
+            TLogger.logError("MySQLDAO", "executeQuery",  e.getMessage(), e);
             result.put("queryExecutionStatus", "failue");
             result.put("message", e.getMessage());
+            statusMsg = "FAILURE: "+e.getMessage();
+	 		statusCode = "0006";
         }
+		TPath.endTPath("MySQLDAO", "MySQLDAO", "executeQuery", statusMsg, statusCode);
+		TLogger.logInfo("MySQLDAO", "executeQuery", "QueryResult: "+result.toString());
+		TLogger.logInfo("MySQLDAO", "executeQuery", "Exit");
 		return result;
 	}
 	
 	public Connection getConnection() {
+		TLogger.logInfo("MySQLDAO", "getConnection", "Entry");
         String url = "jdbc:mysql://localhost:3306/tpath";
+        Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,"root","root");
-            System.out.println("DB Connection retrieved successfully..");
-            return connection;
+            connection = DriverManager.getConnection(url,"root","root");
+            TLogger.logInfo("MySQLDAO", "getConnection", "DB Connection retrieved successfully..");
         } catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e);
             e.printStackTrace();
+            TLogger.logError("MySQLDAO", "getConnection",  e.getMessage(), e);
         }
-        return null;
+        TLogger.logInfo("MySQLDAO", "getConnection", "Exit");
+        return connection;
     }
 	
     public Connection getCludConnection() {
+    	TLogger.logInfo("MySQLDAO", "getCludConnection", "Entry");
         String url = "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/ad_4da09c6f1711355";
+        Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url,"b1ca12e92f18fc","c2d65a2b");
-            System.out.println("DB Connection retrieved successfully..");
-            return connection;
+            connection = DriverManager.getConnection(url,"b1ca12e92f18fc","c2d65a2b");
+            TLogger.logInfo("MySQLDAO", "getCludConnection", "DB Connection retrieved successfully..");
         } catch (Exception e) {
-            System.out.println("Error");
-            System.out.println(e);
             e.printStackTrace();
+            TLogger.logError("MySQLDAO", "getCludConnection",  e.getMessage(), e);
         }
-        return null;
+        TLogger.logInfo("MySQLDAO", "getCludConnection", "Exit");
+        return connection;
     }
 }
